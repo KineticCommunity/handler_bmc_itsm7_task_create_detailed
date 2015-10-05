@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taskDefinition id="bmc_itsm7_task_create_detailed" name="BMC ITSM7 Task Create Detailed" schema_version="1.0" version="1">
+    <author>support@kineticdata.com</author>
+    <description>
+        Creates a TMS:Task entry that belongs to either a Change or Incident record.
+    </description>
+    <helpurl>http://ktc.kineticdata.com/handler/bmc_itsm7_task_create/2</helpurl>
+    <visible>true</visible>
+    <deferrable>true</deferrable>
+    <parameters>
+        <parameter id="task_name" required="true" label="Task Name"
+                   tooltip="Sets the 'Name' field of the TMS:Task record" />
+        <parameter id="summary" required="true" label="Summary"
+                   tooltip="Sets the 'Summary' field of the TMS:Task record" />
+        <parameter id="notes" required="true" label="Notes"
+                   tooltip="Sets the 'Notes' field of the TMS:Task record" />
+        <parameter id="priority" required="true" label="Priority"
+                   tooltip="Sets the 'Priority' field of the TMS:Task record" />
+        <parameter id="sequence_number" required="true" label="Sequence Number"
+                   tooltip="Sets the 'Sequence Number' field of the TMS:Task record" />
+        <parameter id="location_company" required="true" label="Task Location Company"
+                   tooltip="Sets the 'Location Company' field of the TMS:Task entry" />
+        <parameter id="customer_company" required="false" label="Requested For Company"
+                   tooltip="Sets the 'Company' field under the Requested For's details of the TMS:Task entry" />
+        <parameter id="customer_first_name" required="false" label="First Name"
+                   tooltip="Sets the 'First Name' field under the Requested For's details of the TMS:Task entry" />
+        <parameter id="customer_last_name" required="false" label="Last Name"
+                   tooltip="Sets the 'Last Name' field under the Requested For's details of the TMS:Task entry" />
+        <parameter id="customer_middle_name" required="false" label="Middle Name"
+                   tooltip="Sets the 'Middle Name' field under the Requested For's details of the TMS:Task entry" />
+        <parameter id="customer_phone_number" required="false" label="Phone Number"
+                   tooltip="Sets the 'Phone Number' field under the Requested For's details of the TMS:Task entry" />
+        <parameter id="customer_organization" required="false" label="Organization"
+                   tooltip="Sets the 'Organization' field under the Requested For's details of the TMS:Task entry" />
+        <parameter id="customer_department" required="false" label="Department"
+                   tooltip="Sets the 'Department' field under the Requested For's details of the TMS:Task entry" />
+        <parameter id="service_cat_tier_1" required="false" label="Operational Cat Tier 1"
+                   tooltip="Sets the 'Operational Cat Tier 1' field of the TMS:Task entry" />
+        <parameter id="service_cat_tier_2" required="false" label="Operational Cat Tier 2"
+                   tooltip="Sets the 'Operational Cat Tier 2' field of the TMS:Task entry" />
+        <parameter id="service_cat_tier_3" required="false" label="Operational Cat Tier 3"
+                   tooltip="Sets the 'Operational Cat Tier 3' field of the TMS:Task entry" />
+        <parameter id="product_cat_tier_1" required="false" label="Product Cat Tier 1"
+                   tooltip="Sets the 'Product Cat Tier 1' field of the TMS:Task entry" />
+        <parameter id="product_cat_tier_2" required="false" label="Product Cat Tier 2"
+                   tooltip="Sets the 'Product Cat Tier 2' field of the TMS:Task entry" />
+        <parameter id="product_cat_tier_3" required="false" label="Product Cat Tier 3"
+                   tooltip="Sets the 'Product Cat Tier 3' field of the TMS:Task entry" />
+        <parameter id="product_name" required="false" label="Product Name"
+                   tooltip="Sets the 'Product Name' field of the TMS:Task entry" />
+        <parameter id="product_model_version" required="false" label="Product Model/Version"
+                   tooltip="Sets the 'Product Model/Version' field of the TMS:Task entry" />
+        <parameter id="support_company" required="false" label="Assignee Company"
+                   tooltip="Sets the 'Assignee Company' field of the TMS:Task entry" />
+        <parameter id="assignee_organization" required="false" label="Assignee Organization"
+                   tooltip="Sets the 'Assignee Organization' field of the TMS:Task entry" />
+        <parameter id="assignee_group" required="false" label="Assignee Group"
+                   tooltip="Sets the 'Assignee Group' field of the TMS:Task entry" />
+        <parameter id="assignee_group_id" required="false" label="Assignee Group ID"
+                   tooltip="Sets the hidden 'Assignee Group ID' field of the TMS:Task entry. This is required to validate the assigned group."/>        
+		<parameter id="assignee" required="false" label="Assignee Full Name (as in Remedy)"
+                   tooltip="Sets the 'Assignee' field of the TMS:Task entry" />
+        <parameter id="assignee_id" required="false" label="Assignee ID"
+                   tooltip="Sets the hidden 'Assignee ID' field of the TMS:Task entry" />
+		<parameter id="notify_assignee" required="false" label="Notify Assignee"
+		           menu="Yes,No"
+                   tooltip="Sets the 'Notify Assigee' field of the TMS:Task entry, the default is 'Yes"/>
+        <parameter id="parent_form_name" required="true" label="Parent Form Name"
+                   menu="CHG:Infrastructure Change,HPD:Help Desk"
+                   tooltip="The form of the parent record, either CHG:Infrastructure Change or HPD:Help Desk" />
+        <parameter id="parent_id" required="true" label="Parent Change or Incident Id"
+                   tooltip="The display id of the parent record, which is either a Change or an Incident record" />
+        <parameter id="parent_instance_id" required="true" label="ParentInstance Id"
+                   tooltip="The instance id of the parent record, which is either a Change or an Incident record" />
+    </parameters>
+    <handler name="bmc_itsm7_task_create_detailed" version="1">
+        <infos>
+            <info name="server">&lt;%= @info['server'] %&gt;</info>
+            <info name="username">&lt;%= @info['username'] %&gt;</info>
+            <info name="password">&lt;%= @info['password'] %&gt;</info>
+            <info name="port">&lt;%= @info['port'] %&gt;</info>
+            <info name="prognum">&lt;%= @info['prognum'] %&gt;</info>
+            <info name="authentication">&lt;%= @info['authentication'] %&gt;</info>
+            <info name="enable_debug_logging">&lt;%= @info['enable_debug_logging'] %&gt;</info>
+        </infos>
+        <parameters>
+        </parameters>
+        <task_fields>
+            <!-- TMS:Task -->
+            <field name='TaskType'>Manual</field>
+            <field name='RootRequestMode'>Real</field>
+            <field name='TaskName'>&lt;%= @parameters['task_name'] %&gt;</field>
+            <field name='Summary'>&lt;%= @parameters['summary'] %&gt;</field>
+            <field name='Notes'>&lt;%= @parameters['notes'] %&gt;</field>
+            <field name='Priority'>&lt;%= @parameters['priority'] %&gt;</field>
+            <field name='Sequence'>&lt;%= @parameters['sequence_number'] %&gt;</field>
+            <field name='Location Company'>&lt;%= @parameters['location_company'] %&gt;</field>
+            <field name='RootRequestFormName'>&lt;%= @parameters['parent_form_name'] %&gt;</field>
+            <field name='RootRequestName'>&lt;%= @parameters['parent_id'] %&gt;</field>
+            <field name='RootRequestID'>&lt;%= @parameters['parent_id'] %&gt;</field>
+            <field name='RootRequestInstanceID'>&lt;%= @parameters['parent_instance_id'] %&gt;</field>
+			<field name='Customer Company'>&lt;%= @parameters['customer_company'] %&gt;</field>
+			<field name='Customer First Name'>&lt;%= @parameters['customer_first_name'] %&gt;</field>
+			<field name='Customer Last Name'>&lt;%= @parameters['customer_last_name'] %&gt;</field>
+			<field name='Customer Middle Name'>&lt;%= @parameters['customer_middle_name'] %&gt;</field>
+			<field name='Customer Phone Number'>&lt;%= @parameters['customer_phone_number'] %&gt;</field>
+			<field name='Customer Organization'>&lt;%= @parameters['customer_organization'] %&gt;</field>
+			<field name='Customer Department'>&lt;%= @parameters['customer_department'] %&gt;</field>
+			<field name='Service Cat Tier 1'>&lt;%= @parameters['service_cat_tier_1'] %&gt;</field>
+			<field name='Service Cat Tier 2'>&lt;%= @parameters['service_cat_tier_2'] %&gt;</field>
+			<field name='Service Cat Tier 3'>&lt;%= @parameters['service_cat_tier_3'] %&gt;</field>
+			<field name='Product Cat Tier 1'>&lt;%= @parameters['product_cat_tier_1'] %&gt;</field>
+			<field name='Product Cat Tier 2'>&lt;%= @parameters['product_cat_tier_2'] %&gt;</field>
+			<field name='Product Cat Tier 3'>&lt;%= @parameters['product_cat_tier_3'] %&gt;</field>
+			<field name='Product Name'>&lt;%= @parameters['product_name'] %&gt;</field>
+			<field name='Product Model/Version'>&lt;%= @parameters['product_model_version'] %&gt;</field>
+			<field name='Support Company'>&lt;%= @parameters['support_company'] %&gt;</field>
+			<field name='Assignee Organization'>&lt;%= @parameters['assignee_organization'] %&gt;</field>
+			<field name='Assignee Group'>&lt;%= @parameters['assignee_group'] %&gt;</field>
+			<field name='Assignee Group ID'>&lt;%= @parameters['assignee_group_id'] %&gt;</field>
+			<field name='Assignee'>&lt;%= @parameters['assignee'] %&gt;</field>
+			<field name='Assignee Id'>&lt;%= @parameters['assignee_id'] %&gt;</field>
+			<field name='Notify Assignee'>&lt;%= @parameters['notify_assignee'] %&gt;</field>
+			
+        </task_fields>
+        <flow_builder_fields>
+            <!-- TMS:FlowBuilder -->
+            <field name='Location Company'>&lt;%= @parameters['location_company'] %&gt;</field>
+            <field name='Parent Name'>&lt;%= @parameters['parent_id'] %&gt;</field>
+            <field name='SuccessorSequence'>&lt;%= @parameters['sequence_number'] %&gt;</field>
+            <field name='ParentID'>&lt;%= @parameters['parent_instance_id'] %&gt;</field>
+            <field name='Parent Type'>Root Request</field>
+            <field name='zTmpInternalCommand'>CREATE_TASK_FLOW</field>
+            <field name='RootRequestFormName'>&lt;%= @parameters['parent_form_name'] %&gt;</field>
+            <field name='RootRequestName'>&lt;%= @parameters['parent_id'] %&gt;</field>
+            <field name='RootRequestInstanceID'>&lt;%= @parameters['parent_instance_id'] %&gt;</field>
+        </flow_builder_fields>
+    </handler>
+    <results format="xml">
+        <result name="Task Id"></result>
+    </results>
+</taskDefinition>
