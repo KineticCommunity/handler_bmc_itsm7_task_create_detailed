@@ -14,6 +14,8 @@
                    tooltip="Sets the 'Summary' field of the TMS:Task record" />
         <parameter id="notes" required="true" label="Notes"
                    tooltip="Sets the 'Notes' field of the TMS:Task record" />
+		<parameter id="status" required="true" label="Status"
+                   tooltip="Sets the 'Status' field of the TMS:Task record" />		   
         <parameter id="priority" required="true" label="Priority"
                    tooltip="Sets the 'Priority' field of the TMS:Task record" />
         <parameter id="sequence_number" required="true" label="Sequence Number"
@@ -71,7 +73,8 @@
         <parameter id="parent_id" required="true" label="Parent Change or Incident Id"
                    tooltip="The display id of the parent record, which is either a Change or an Incident record" />
         <parameter id="parent_instance_id" required="true" label="ParentInstance Id"
-                   tooltip="The instance id of the parent record, which is either a Change or an Incident record" />
+                   tooltip="The instance id of the parent record, which is either a Change or an Incident record" />	   
+				   
     </parameters>
     <handler name="bmc_itsm7_task_create_detailed" version="1">
         <infos>
@@ -92,6 +95,7 @@
             <field name='TaskName'>&lt;%= @parameters['task_name'] %&gt;</field>
             <field name='Summary'>&lt;%= @parameters['summary'] %&gt;</field>
             <field name='Notes'>&lt;%= @parameters['notes'] %&gt;</field>
+			<field name='Status'>&lt;%= @parameters['status'] %&gt;</field>
             <field name='Priority'>&lt;%= @parameters['priority'] %&gt;</field>
             <field name='Sequence'>&lt;%= @parameters['sequence_number'] %&gt;</field>
             <field name='Location Company'>&lt;%= @parameters['location_company'] %&gt;</field>
@@ -121,7 +125,7 @@
 			<field name='Assignee'>&lt;%= @parameters['assignee'] %&gt;</field>
 			<field name='Assignee Id'>&lt;%= @parameters['assignee_id'] %&gt;</field>
 			<field name='Notify Assignee'>&lt;%= @parameters['notify_assignee'] %&gt;</field>
-			
+			<field name='Link Id'>&lt;%= @task['Deferral Token'] %&gt;</field>
         </task_fields>
         <flow_builder_fields>
             <!-- TMS:FlowBuilder -->
